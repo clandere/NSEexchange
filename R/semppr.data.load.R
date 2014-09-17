@@ -7,7 +7,8 @@ semppr.data.load <- function(dna.file,
                              norm.expr=FALSE,
                              Q=1,Ne=1,A1=4,A2=4,B=0.0025,
                              mut.header=TRUE,
-                             elong.header=TRUE) {
+                             elong.header=TRUE,
+                             phi.header=TRUE) {
   # Purpose: Easily load data in correct format for use with    
   #    calc.llik functions.                                     
   # Inputs: dna.file = name specifying dna file in fasta format. This file is required.
@@ -55,8 +56,8 @@ semppr.data.load <- function(dna.file,
 
     
     # Check for errors
-    if(length(elong.dat[,1])!=64){
-      if(length(elong.dat[,1])<61){
+    if(length(elong.dat[,1]) != 64){
+      if(length(elong.dat[,1]) < 61){
         stop("Error: Too few codons included in elongation/NSE file.\n")
       }else if(length(elong.dat[,1])==64&&any(elong.dat[62:64,1]!=c('X','X','X'))){
         stop("Error: Stop codons must occur at the end of the elongation file.\n")
@@ -120,7 +121,11 @@ semppr.data.load <- function(dna.file,
   #Read in the z = phi data.
   
   if(!is.null(phi.file)){
-    phi.dat = read.csv(phi.file,header=TRUE,stringsAsFactors=FALSE)
+    ## determine if csv or tsv || Added Cedric 09/15/2014
+    first.line <- readLines(phi.file, n=1) 
+    sep <- ifelse(grepl(",", first.line), ",", "\t")
+    
+    phi.dat = read.csv(phi.file, header=phi.header, stringsAsFactors=FALSE, sep = sep)
     phi = phi.dat[,2]
     if(norm.expr){
       phi.dat.norm = phi.dat[,2]/median(phi.dat[,2]) # transform data so that it has median = 1
@@ -134,6 +139,7 @@ semppr.data.load <- function(dna.file,
       phi.dat[i] = as.numeric(str_split(name,'\t')[[1]][3])
       if(is.na(phi.dat[i])){
         is.phi.included=FALSE
+        break; # if any is NA, all will be set to NA in next if || Added Cedric 09/15/2014
       }
     }
     if(!is.phi.included){
@@ -200,5 +206,5 @@ semppr.data.load <- function(dna.file,
   phi.dat = unlist(lapply(gene.list.full,function(list) list$phi))
   
   
-  answer = list(gene.list.full,codon.parms,phi.dat)
+  answer = list(genome=gene.list.full,codon.parms=codon.parms,phi=phi.dat)
 }

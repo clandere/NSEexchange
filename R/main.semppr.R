@@ -3,13 +3,14 @@ main.semppr <- function(obs.genome,
                         phi=NULL,
                         genome.parms=NULL,
                         aa.list = c('C'),
-                        out.prefix='output/',
+                        out.prefix=NULL,
                         num.MCMC.steps=3000,
                         BIS=4,GMT=0,MES=0,
                         phi.proposal.type = 'RN',
                         codon.proposal.type = 'LN',
                         aux.simulation.type = 'M',
                         parallel='lapply',
+                        nseid='n-1',
                         n.cores = 2,
                         simulate.dataset=TRUE){
 # Purpose: Fit an evolutionary model of nonsense errors described in Gilchrist et al. 2009 to genome data using an evolutionary
@@ -99,7 +100,7 @@ main.semppr <- function(obs.genome,
   }else if(!is.null(aa.list)&&(aa.list=='None'||aa.list=='none')){
     aa.list=NULL
   }
-  assign('nse.id','n-1',envir = ,.GlobalEnv)
+  assign('nse.id', nseid, envir = ,.GlobalEnv)
   out.prefix = initialize.output(out.prefix)
   codon.parms = initialize(codon.parms, num.MCMC.steps)
   genome.parms = initialize.genome.parms(genome.parms)
@@ -171,6 +172,6 @@ main.semppr <- function(obs.genome,
     return(list(obs.genome=obs.genome,
                 phi=phi,
                 codon.parms=codon.parms,
-                time.list=time.list))
+                time.list=time.list, mcmc=MCMC))
   }
 }

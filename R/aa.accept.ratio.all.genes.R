@@ -1,8 +1,5 @@
 aa.accept.ratio.all.genes <- function(genome, P.codon.parms, curr.codon.parms, genome.parms, MCMC, parallel='mclapply', n.cores=2){
   
-  ## pre-calculate this term since it is the same for each gene.  || Cedric 08/21/14
-  QNePhi <- (-genome.parms$Q * genome.parms$Ne * gene.list$phi.curr)
-  
   if(parallel=='mclapply'){
     if(length(genome)/n.cores < 5){
       mc.preschedule=FALSE
@@ -14,7 +11,6 @@ aa.accept.ratio.all.genes <- function(genome, P.codon.parms, curr.codon.parms, g
                    P.codon.parms,
                    curr.codon.parms,
                    genome.parms,
-                   QNePhi,
                    MCMC,
                    mc.cores=n.cores,
                    mc.preschedule = mc.preschedule)
@@ -24,7 +20,6 @@ aa.accept.ratio.all.genes <- function(genome, P.codon.parms, curr.codon.parms, g
                  P.codon.parms,
                  curr.codon.parms,
                  genome.parms,
-                 QNePhi,
                  MCMC)
   }else{
     stop(paste('Function aa.accept.ratio.all.genes does not support parallelization of type ', '\"', parallel, '\"', sep=''))

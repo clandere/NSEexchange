@@ -470,7 +470,7 @@ void Generate_Codon_Structures()
     int c_index;
     int codon_match[3]; //use to determine which position and nts involved in differences b/w codons.
     double mu_rate = 1;
-    int to_codon, to_codon_matcher, from_codon;
+    int to_codon = to_codon_matcher = from_codon = 1;
     int osn_flag;
     int first_codon;
     int from_matrix_index, to_matrix_index;
@@ -479,7 +479,7 @@ void Generate_Codon_Structures()
     char synonym[4];
 
     codon_index = 0;
-    to_codon = to_codon_matcher = from_codon = 0;
+
     for (i = 0; i < G.max_aa; i++) {
         for (j = 0; j < AA[i].num_codons; j++) {
             AA[i].codon_index[j] = codon_index;

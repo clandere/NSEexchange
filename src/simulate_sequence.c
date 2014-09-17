@@ -65,8 +65,8 @@ void simulate_sequence(int *CODON_INDEX,                  double *ELONG_PR,     
   //*  3) Calculate initial eta and mu *
   //*==================================*
   Sequence.eta_initial = Sequence.eta_obs = Calc_Eta_NSE(&Sequence);
-  Codon_Counts(Sequence.codon_index,Sequence.codon_cts,Sequence.aa_count);
-	Sequence.mu_obs = Calc_Seq_Mu(Sequence.codon_cts,Sequence.aa_count);
+  Codon_Counts(Sequence.codon_index, Sequence.codon_cts, Sequence.aa_count);
+	Sequence.mu_obs = Calc_Seq_Mu(Sequence.codon_cts, Sequence.aa_count);
 
   //*========================*
   //* 4) Simulate Evolution  *
@@ -74,11 +74,11 @@ void simulate_sequence(int *CODON_INDEX,                  double *ELONG_PR,     
   
   switch(**SIMULATION_METHOD){
   case 'E':
-	  Evolve_Sequence(&Sequence,total_evol_steps,global_max_time);
+	  Evolve_Sequence(&Sequence, total_evol_steps, global_max_time);
 	  break;
 	
 	case 'M':
-		MCMC_Sequence(&Sequence,total_evol_steps);
+		MCMC_Sequence(&Sequence, total_evol_steps);
 		break;
 	}
 	

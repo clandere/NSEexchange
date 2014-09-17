@@ -236,7 +236,7 @@ double Calc_Xi_NSE (double *sigma_vec, int aa_count) {
   //xi=(G.A1+G.A2)*(1-*sigma_vec);//should be zero
   for (i = 1; i < aa_count; i++) 
   {
-    xi += (G.A1 + G.A2 * (i)) * (*(sigma_vec - 1) - *(sigma_vec++));
+    xi += (G.A1 + G.A2 * (i)) * (*(sigma_vec - 1) - *(sigma_vec)++);
     //\sigma_{i-1} b/(b+c_i) = \sigma_{i-1}-\sigma_i 
     //modified from G.A2*(i+1)
     //rationale: should be i-1, but C indexing offsets things by 1, so should just be i

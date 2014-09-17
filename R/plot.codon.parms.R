@@ -43,7 +43,7 @@ plot.codon.parms <- function(codon.parms, aa.list, codon.list=NULL, n.col=4, bur
               y=mut.trace[floor(burnin*length(mut.trace)+1):length(mut.trace)],
               xlab='log(NSE Pr)\n',
               ylab='log(Mut Rate)',
-              main=paste('Codon',codon.parms$trace[[1]]$codon[ind.aa[[i]][j]]),
+              main=paste('Codon', codon.parms$trace[[1]]$codon[ind.aa[[i]][j]]),
               ...)
         if(!is.null(codon.parms$obs))
         {  

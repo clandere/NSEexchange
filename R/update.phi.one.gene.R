@@ -1,22 +1,25 @@
-update.phi.one.gene <- function(i,genome,codon.parms,pop.parms,MCMC){
+update.phi.one.gene <- function(i, genome, codon.parms, pop.parms, MCMC){
     
   #1) Propose new phi 
   # Use random walk with lognormal distribution or reflecting normal. 
   # Note: reflecting normal seems to work better because when using a lognormal
   # distbn, the phi traces can get stuck in low-phi "wells" 
-  if(MCMC$phi$prop.type == 'LN'){ #Lognormal Distribution has symmetric q'/q
-    P.log.phi = rnorm(1,mean=log(MCMC$phi$curr.phi[i]),sd=MCMC$phi$prop.var[i])
-    P.phi = exp(P.log.phi)
-    mh.ratio = 1 #metropolis-hastings ratio -- symmetric jumping distribution
-  }else if(MCMC$phi$prop.type == 'RN'){ #Reflecting Normal also has symmetric q'/q
-    P.phi = rnorm(1,mean=MCMC$phi$curr.phi[i],sd=MCMC$phi$prop.var[i])
-    if(P.phi<0) P.phi=-P.phi #reflecting normal distribution
-    mh.ratio = 1 #metropolis-hastings ratio -- symmetric jumping distribution
-  }else{
-    error(paste('Error in SempprExchange.main.R: Invalid phi proposal type',proposal.type))
+  if(MCMC$phi$prop.type == 'LN') #Lognormal Distribution has symmetric q'/q
+  { 
+    P.log.phi <- rnorm(1, mean = log(MCMC$phi$curr.phi[i]), sd = MCMC$phi$prop.var[i])
+    P.phi <- exp(P.log.phi)
+    mh.ratio <- 1 #metropolis-hastings ratio -- symmetric jumping distribution
+  }else if(MCMC$phi$prop.type == 'RN') #Reflecting Normal also has symmetric q'/q
+  { 
+    P.phi <- rnorm(1, mean = MCMC$phi$curr.phi[i], sd = MCMC$phi$prop.var[i])
+    if(P.phi < 0) P.phi <- -P.phi #reflecting normal distribution
+    mh.ratio <- 1 #metropolis-hastings ratio -- symmetric jumping distribution
+  }else
+  {
+    error(paste('Error in SempprExchange.main.R: Invalid phi proposal type', proposal.type))
   }
   
-  prior.ratio = 1 #assume flat prior - this will be replaced by s and k 
+  prior.ratio <- 1 #assume flat prior - this will be replaced by s and k 
   #prior.ratio = phi.prior(P.phi,pop.parms$s,pop.parms$k)/phi.prior(MCMC$phi$curr.phi[i],pop.parms$s,pop.parms$k)
   
   #2) Generate auxiliary variable (simulate codon sequence)
@@ -42,14 +45,12 @@ update.phi.one.gene <- function(i,genome,codon.parms,pop.parms,MCMC){
   
   #3) Calculate acceptance rate
   #delta eta is defined as eta_obs - eta_aux
-  eta_obs = calc.eta.NSE(codon_index=genome[[i]]$gene.dat$c_index,codon.parms,pop.parms)
-  eta_aux = calc.eta.NSE(aux_c_index,codon.parms,pop.parms)
+  eta_obs = calc.eta.NSE(codon_index = genome[[i]]$gene.dat$c_index, codon.parms, pop.parms)
+  eta_aux = calc.eta.NSE(aux_c_index, codon.parms, pop.parms)
   delta.eta = eta_obs - eta_aux
   
   #NOTE: Mu cancels out of this acceptance ratio 
-  accept.ratio = exp(pop.parms$Q*pop.parms$Ne*delta.eta*(MCMC$phi$curr.phi[i] - P.phi))*
-    prior.ratio*
-    mh.ratio
+  accept.ratio = exp(pop.parms$Q*pop.parms$Ne*delta.eta*(MCMC$phi$curr.phi[i] - P.phi))*prior.ratio*mh.ratio
   
   #4) Draw random number and accept/reject
   #debug output
