@@ -1,0 +1,61 @@
+import(seqinr)
+useDynLib(exchange_NSE)
+
+export(
+# Data Structures
+"construct.codon.parms",
+"construct.phi",
+#"construct.genome",
+
+# Main Functions
+"main.semppr",
+
+# Initialization functions
+"initialize",
+"initialize.genome.parms",
+"initialize.genome",
+"initialize.gene",
+"initialize.MCMC.info",
+"initialize.output",
+"initialize.phi",
+"initialize.covariance.mat",
+
+# SCUO
+"guess.phi.scuo",
+"calcScuo",
+
+# MCMC
+"update.codon.parms.all.aa",
+"update.codon.parms.one.aa",
+"aa.accept.ratio.all.genes",
+"aa.accept.ratio.one.gene",
+"update.phi.all.genes",
+"update.phi.one.gene",
+"update.MCMC.info",
+"update.covariance.matrix",
+
+# Simulation
+"simulate.data.all.genes",
+"simulate.data.one.gene",
+"simulate.sequence",
+
+# Sequence calculations
+"calc.eta.NSE",
+"calcMu",
+"calc.moments.eta",
+"opt.seq",
+"pess.seq",
+"rand.seq",
+
+# Convergence
+"gelman.conv",
+
+# Old stuff from denominator approx
+"calc.mean.exact"
+)
+
+S3method("plot","codon.parms")
+S3method("initialize","codon.parms")
+
+S3method("plot","phi")
+S3method("initialize","phi")
