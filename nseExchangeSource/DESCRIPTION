@@ -1,0 +1,29 @@
+Package: NSEexchange
+Version: 0.1
+Date: 2014-07-24
+Title: Nonsense Error CUB Model Using the Exchange Algorithm
+Authors@R: c(person("Preston", "Hewgley", role = c("aut", "cre"),
+		     email = "whewgley@uthsc.edu"),
+	      person("Michael A.", "Gilchrist", role = "aut"),
+	      person("Russell", "Zaretzki", role = "aut"),
+	      person("Cedric", "Landerer", role = "aut"),
+	      person("William", "Howell", role = "ctb"),
+	      person("Wei-chen","Chen", role = "ctb"))
+Author: Preston Hewgley [aut, cre],
+  Michael A. Gilchrist [aut],
+  Russell Zaretzki [aut],
+  Cedric Landerer [aut],
+  Wei-Chen Chen [ctb],
+  William Howell [ctb]
+Maintainer: Preston Hewgley <whewgley@uthsc.edu>
+Depends: R (>= 1.8.0), MASS, seqinr
+Suggests: 
+Description: Estimating mutation and selection coefficients on synonymous
+       codon bias usage based on models of Nonsense Errors (NSE).
+       The Exchange Algorithm for Markov Chain Monte Carlo on 
+       doubly-intractible distributions is used to
+       estimate and predict protein production rates without the presence
+       of expressions and measurement errors. 
+License: GPL (>= 2)
+URL: 
+BugReports: 
