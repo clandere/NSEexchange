@@ -16,7 +16,7 @@ Author: Preston Hewgley [aut, cre],
   Wei-Chen Chen [ctb],
   William Howell [ctb]
 Maintainer: Preston Hewgley <whewgley@uthsc.edu>
-Depends: R (>= 1.8.0), MASS, seqinr, multicore
+Depends: R (>= 1.8.0), MASS, seqinr
 Suggests: 
 Description: Estimating mutation and selection coefficients on synonymous
        codon bias usage based on models of Nonsense Errors (NSE).

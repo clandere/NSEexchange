@@ -5,8 +5,6 @@ calcScuo <- function(gene.list.list, codon.parms, n.cores=2, parallel='mclapply'
   #        n.cores - number of cores for mclapply
   #Outputs: SCUO - vector of SCUO values corresponding to each element of gene.list.list
   
-  require(multicore)
-  
   if(parallel=='mclapply'){
     scuo <- unlist(mclapply(gene.list.list, calc.scuo.one.gene, codon.parms$init))
   }else if(parallel=='lapply'){

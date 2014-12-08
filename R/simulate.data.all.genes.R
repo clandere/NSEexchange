@@ -22,7 +22,7 @@ simulate.data.all.genes <- function(obs.genome,
   }
 
   if(parallel == 'mclapply'){
-    obs.genome <- mclapply(X=obs.genome, 
+    sim.genome <- mclapply(X=obs.genome, 
                       FUN=simulate.data.one.gene,
                       obs.codon.parms,
                       obs.genome.parms,
@@ -32,7 +32,7 @@ simulate.data.all.genes <- function(obs.genome,
                       mc.preschedule=TRUE)
     
   }else if(parallel=='lapply'){
-    obs.genome = lapply(X=obs.genome, 
+    sim.genome = lapply(X=obs.genome, 
                     FUN=simulate.data.one.gene,
                     codon.parms=obs.codon.parms,
                     genome.parms=obs.genome.parms,
@@ -43,4 +43,6 @@ simulate.data.all.genes <- function(obs.genome,
     stop(paste('Function initialize.obs.genome does not support parallelization of type ','\"',parallel,'\"',sep=''))
   }
   
+  return(sim.genome)
+
 }
