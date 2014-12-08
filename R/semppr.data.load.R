@@ -6,9 +6,9 @@ semppr.data.load <- function(dna.file,
                              phi.file=NULL,
                              norm.expr=FALSE,
                              Q=1,Ne=1,A1=4,A2=4,B=0.0025,
-                             mut.header=TRUE,
-                             elong.header=TRUE,
-                             phi.header=TRUE) {
+                             mut.header=FALSE,
+                             elong.header=FALSE,
+                             phi.header=FALSE) {
   # Purpose: Easily load data in correct format for use with    
   #    calc.llik functions.                                     
   # Inputs: dna.file = name specifying dna file in fasta format. This file is required.
@@ -43,13 +43,13 @@ semppr.data.load <- function(dna.file,
     #####################################
     
     if(!is.null(nse.pr.file)){
-      elong.dat = read.delim(nse.pr.file,header=elong.header,sep = "\t",stringsAsFactors = FALSE)
+      elong.dat = read.delim(nse.pr.file, header=elong.header, sep = "\t", stringsAsFactors = FALSE)
       names(elong.dat) = c("AA","Codon","NsePr")
     }else if(!is.null(elong.pr.file)){
-      elong.dat = read.delim(elong.pr.file,header=elong.header,sep = "\t",stringsAsFactors = FALSE)
+      elong.dat = read.delim(elong.pr.file, header=elong.header, sep = "\t", stringsAsFactors = FALSE)
       names(elong.dat) = c("AA","Codon","ElongPr")
     }else if(!is.null(elong.rate.file)){
-      elong.dat = read.delim(elong.rate.file,header=elong.header,sep = "\t",stringsAsFactors = FALSE)
+      elong.dat = read.delim(elong.rate.file, header=elong.header, sep = "\t", stringsAsFactors = FALSE)
       names(elong.dat) = c("AA","Codon","ElongRate")
     }
     
@@ -96,21 +96,24 @@ semppr.data.load <- function(dna.file,
     merged.dat = merge(elong.dat,mut.dat,by="Codon",sort=FALSE)
 
     if(!is.null(nse.pr.file)){
-      codon.parms[,4] = 1-as.numeric(merged.dat$NsePr)
-      codon.parms[,5] = as.numeric(merged.dat$NsePr)
-      codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      names(codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
+      #codon.parms[,4] = log(1-as.numeric(merged.dat$NsePr))
+      codon.parms[,4] = as.numeric(merged.dat$NsePr)
+      codon.parms[,5] = as.numeric(merged.dat$MutRate)
+      #names(codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
+      names(codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate")
     }else if(!is.null(elong.pr.file)){
-      codon.parms[,4] = as.numeric(merged.dat$ElongPr)
-      codon.parms[,5] = 1-as.numeric(merged.dat$ElongPr)
-      codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      names(codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
+      #codon.parms[,4] = as.numeric(merged.dat$ElongPr)
+      codon.parms[,4] = 1-as.numeric(merged.dat$ElongPr)
+      codon.parms[,5] = as.numeric(merged.dat$MutRate)
+      #names(codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
+      names(codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate")
     }else if(!is.null(elong.rate.file)){
-      codon.parms[,4] = as.numeric(merged.dat$ElongRate)/(as.numeric(merged.dat$ElongRate)+B) #elong_pr
-      codon.parms[,5] = B/(as.numeric(merged.dat$ElongRate)+B) #nse_pr
-      codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      codon.parms[,7] = as.numeric(merged.dat$ElongRate)
-      names(codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate","elong_rate")
+      #codon.parms[,4] = as.numeric(merged.dat$ElongRate)/(as.numeric(merged.dat$ElongRate)+B) #elong_pr
+      codon.parms[,4] = B/(as.numeric(merged.dat$ElongRate)+B) #nse_pr
+      codon.parms[,5] = as.numeric(merged.dat$MutRate)
+      codon.parms[,6] = as.numeric(merged.dat$ElongRate)
+      #names(codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate","elong_rate")
+      names(codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate","elong_rate")
     }
   
   #tabulate the number of codons associated with each amino acid.

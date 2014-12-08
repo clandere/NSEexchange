@@ -114,7 +114,7 @@ main.semppr <- function(obs.genome,
                                      aux.simulation.type,
                                      n.cores,parallel)
   }
-  phi <- initialize.phi(phi, genome, codon.parms, parallel)
+  phi <- initialize.phi(phi, genome, codon.parms, num.MCMC.steps, parallel)
   MCMC <- initialize.MCMC.info(phi$trace.dat, phi.proposal.type, aa.list, codon.parms$init, codon.proposal.type, BIS, MES, GMT, aux.simulation.type)
   genome <- initialize.genome(genome, phi$trace.dat, codon.parms$curr, genome.parms, MCMC, n.cores, parallel)
     
@@ -141,6 +141,7 @@ main.semppr <- function(obs.genome,
     }
 
     phi$trace.dat = rbind(phi$trace.dat,step.phi)
+    #phi$trace.dat[i+1,] = step.phi
     
     #Update trna parms for each gene
     ret = update.codon.parms.all.aa(genome, phi$trace.dat[i+1,], codon.parms$curr, genome.parms, MCMC, aa.list, n.cores=n.cores, parallel=parallel)

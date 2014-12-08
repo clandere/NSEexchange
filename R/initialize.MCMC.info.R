@@ -15,8 +15,10 @@ initialize.MCMC.info <- function(phi.trace.dat,
   MCMC$phi = list(curr.phi = phi.trace.dat[nrow(phi.trace.dat),],
                   prop.var = phi.trace.dat[nrow(phi.trace.dat),],
                   prop.type = phi.proposal.type,
-                  accept.history = matrix(0,50,ncol(phi.trace.dat)) #this records the last 50 accept/rejections\
+                  accept.history = matrix(0, 50, ncol(phi.trace.dat)) #this records the last 50 accept/rejections\
   )
+#   cat("initialize.MCMC.info -> phi cur: ");print(MCMC$phi$curr.phi)
+#   cat("initialize.MCMC.info -> phi var: ");print(MCMC$phi$prop.var)
   
   #Codon parameter info  
   MCMC$codon = list()

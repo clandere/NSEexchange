@@ -55,11 +55,11 @@ simulate.sequence <- function(phi, c_index, codon.parms, BIS, GMT=0, MES=0,SIMUL
   #####################
   # GENOME PARAMETERS #
   #####################
-  ELONGATION.PR = codon.parms$elong_pr[sort.list(codon.parms$c_index)]
-  MUTATION.RATES = codon.parms$mut_rate[sort.list(codon.parms$c_index)]
+  ELONGATION.PR = 1 - exp(codon.parms$nse_pr[sort.list(codon.parms$c_index)])#codon.parms$elong_pr[sort.list(codon.parms$c_index)]
+  MUTATION.RATES = exp(codon.parms$mut_rate[sort.list(codon.parms$c_index)])
   AA.VEC = codon.parms$aa[sort.list(codon.parms$c_index)]
   CODON.VEC = codon.parms$codon[sort.list(codon.parms$c_index)]
-  
+  #cat("simulate_sequence -> phi value: ");print(PHI)
   #Call C function
   OUT.DATA <- .C("simulate_sequence",c_index = as.integer(CODON.INDEX),         as.double(ELONGATION.PR),      as.double(MUTATION.RATES),
                            AA.COUNT = length(CODON.INDEX),            as.double(PHI),                   as.double(Ne), 

@@ -28,20 +28,21 @@ update.MCMC.info <- function(i, MCMC, phi.dat, codon.parms.trace, aa.list){
       ind = which(curr.codon.parms$aa==aa)
       if(nse.id=='n-1'){
         MCMC$codon[[aa]]$mu = 
-          c(log(as.numeric(curr.codon.parms$mut_rate[ind[-1]])),
-            log(1-as.numeric(curr.codon.parms$elong_pr[ind[-1]]))) #NSE id = n-1
+          c(as.numeric(curr.codon.parms$mut_rate[ind[-1]]),
+            as.numeric(curr.codon.parms$nse_pr[ind[-1]])) #NSE id = n-1
       }else if(nse.id =='n'){
         MCMC$codon[[aa]]$mu = 
-          c(log(as.numeric(curr.codon.parms$mut_rate[ind[-1]])),
-            log(1-as.numeric(curr.codon.parms$elong_pr[ind]))) #NSE id = n
+          c(as.numeric(curr.codon.parms$mut_rate[ind[-1]]),
+            #log(1-as.numeric(curr.codon.parms$elong_pr[ind[-1]]))) #NSE id = n
+            as.numeric(curr.codon.parms$nse_pr[ind])) #NSE id = n
       }
       MCMC$codon[[aa]]$accept.history[i%%50] = 
-        any(curr.codon.parms$elong_pr[ind]!=
-               prev.codon.parms$elong_pr[ind])||
+        any(curr.codon.parms$nse_pr[ind]!=
+               prev.codon.parms$nse_pr[ind])||
             any(curr.codon.parms$mut_rate[ind]!=
                prev.codon.parms$mut_rate[ind])
     }
-    
+    #print(MCMC$codon[[aa]]$mu)
     #Scale the covariance matrix
     #if(i%%50==0){
     #  for(aa in aa.list){

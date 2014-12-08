@@ -36,9 +36,9 @@ plot.codon.parms <- function(codon.parms, aa.list, codon.list=NULL, n.col=4, bur
       for(j in 1:length(ind.aa[[i]]))
       {
         nse.trace <- unlist(lapply(codon.parms$trace,
-                                  function(trace)log(1-as.numeric(trace$elong_pr[ind.aa[[i]][j]]))))
+                                  function(trace) as.numeric(trace$nse_pr[ind.aa[[i]][j]])))
         mut.trace <- unlist(lapply(codon.parms$trace,
-                                  function(trace) log(as.numeric(trace$mut_rate[ind.aa[[i]][j]]))))
+                                  function(trace) as.numeric(trace$mut_rate[ind.aa[[i]][j]])))
         hist2(x=nse.trace[floor(burnin*length(nse.trace)+1):length(nse.trace)],
               y=mut.trace[floor(burnin*length(mut.trace)+1):length(mut.trace)],
               xlab='log(NSE Pr)\n',
@@ -46,9 +46,11 @@ plot.codon.parms <- function(codon.parms, aa.list, codon.list=NULL, n.col=4, bur
               main=paste('Codon', codon.parms$trace[[1]]$codon[ind.aa[[i]][j]]),
               ...)
         if(!is.null(codon.parms$obs))
-        {  
-          mut.obs <- log(as.numeric(codon.parms$obs$mut_rate[ind.aa[[i]][j]]))
-          nse.obs <- log(1-as.numeric(codon.parms$obs$elong_pr[ind.aa[[i]][j]]))
+        { 
+          mut.obs <- as.numeric(codon.parms$obs$mut_rate[ind.aa[[i]][j]])
+          nse.obs <- as.numeric(codon.parms$obs$nse_pr[ind.aa[[i]][j]])
+          if(mut.obs > 0) mut.obs <- log(mut.obs)
+          if(nse.obs > 0) nse.obs <- log(nse.obs)
           
           abline(h=mut.obs,col='green')
           abline(v=nse.obs,col='green')

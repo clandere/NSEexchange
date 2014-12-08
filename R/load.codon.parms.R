@@ -1,4 +1,4 @@
-construct.codon.parms <- function(init.nse.pr.file=NULL,init.elong.pr.file=NULL,
+load.codon.parms <- function(init.nse.pr.file=NULL,init.elong.pr.file=NULL,
                                   init.elong.rate.file=NULL,init.mut.file=NULL,
                                   init.elong.header=FALSE,init.mut.header=FALSE,
                                   obs.nse.pr.file=NULL,obs.elong.pr.file=NULL,
@@ -82,23 +82,27 @@ construct.codon.parms <- function(init.nse.pr.file=NULL,init.elong.pr.file=NULL,
 
     merged.dat = merge(elong.dat,mut.dat,by="Codon",sort=FALSE)
     
-    if(!is.null(init.nse.pr.file)){
-      init.codon.parms[,4] = 1-as.numeric(merged.dat$NsePr)
-      init.codon.parms[,5] = as.numeric(merged.dat$NsePr)
-      init.codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      names(init.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
-    }else if(!is.null(init.elong.pr.file)){
-      init.codon.parms[,4] = as.numeric(merged.dat$ElongPr)
-      init.codon.parms[,5] = 1-as.numeric(merged.dat$ElongPr)
-      init.codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      names(init.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
-    }else if(!is.null(init.elong.rate.file)){
-      init.codon.parms[,4] = as.numeric(merged.dat$ElongRate)/(as.numeric(merged.dat$ElongRate)+B) #elong_pr
-      init.codon.parms[,5] = B/(as.numeric(merged.dat$ElongRate)+B) #nse_pr
-      init.codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      init.codon.parms[,7] = as.numeric(merged.dat$ElongRate)
-      names(init.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate","elong_rate")
-    }
+    
+    if(!is.null(nse.pr.file)){
+      #init.codon.parms[,4] = log(1-as.numeric(merged.dat$NsePr))
+      init.codon.parms[,4] = log(as.numeric(merged.dat$NsePr))
+      init.codon.parms[,5] = log(as.numeric(merged.dat$MutRate))
+      #names(init.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
+      names(init.codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate")
+    }else if(!is.null(elong.pr.file)){
+      #init.codon.parms[,4] = as.numeric(merged.dat$ElongPr)
+      init.codon.parms[,4] = log(1-as.numeric(merged.dat$ElongPr))
+      init.codon.parms[,5] = log(as.numeric(merged.dat$MutRate))
+      #names(init.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
+      names(init.codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate")
+    }else if(!is.null(elong.rate.file)){
+      #init.codon.parms[,4] = as.numeric(merged.dat$ElongRate)/(as.numeric(merged.dat$ElongRate)+B) #elong_pr
+      init.codon.parms[,4] = log(B/(as.numeric(merged.dat$ElongRate)+B)) #nse_pr
+      init.codon.parms[,5] = log(as.numeric(merged.dat$MutRate))
+      init.codon.parms[,6] = log(as.numeric(merged.dat$ElongRate))
+      #names(init.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate","elong_rate")
+      names(init.codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate","elong_rate")
+    }    
     
     #tabulate the number of codons associated with each amino acid.
     aa.count = as.data.frame(table(init.codon.parms$aa))
@@ -162,25 +166,28 @@ construct.codon.parms <- function(init.nse.pr.file=NULL,init.elong.pr.file=NULL,
     obs.codon.parms[,3] = 0:63 #codon indices
     
     #Make sure codons are in the same order
-    merged.dat = merge(elong.dat,mut.dat,by="Codon",sort=FALSE)
+    merged.dat = merge(elong.dat, mut.dat, by="Codon",sort=FALSE)
     
-    if(!is.null(obs.nse.pr.file)){
-      obs.codon.parms[,4] = 1-as.numeric(merged.dat$NsePr)
-      obs.codon.parms[,5] = as.numeric(merged.dat$NsePr)
-      obs.codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      names(obs.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
-    }else if(!is.null(obs.elong.pr.file)){
-      obs.codon.parms[,4] = as.numeric(merged.dat$ElongPr)
-      obs.codon.parms[,5] = 1-as.numeric(merged.dat$ElongPr)
-      obs.codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      names(obs.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
-    }else if(!is.null(obs.elong.rate.file)){
-      obs.codon.parms[,4] = as.numeric(merged.dat$ElongRate)/(as.numeric(merged.dat$ElongRate)+B) #elong_pr
-      obs.codon.parms[,5] = B/(as.numeric(merged.dat$ElongRate)+B) #nse_pr
-      obs.codon.parms[,6] = as.numeric(merged.dat$MutRate)
-      obs.codon.parms[,7] = as.numeric(merged.dat$ElongRate)
-      names(obs.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate","elong_rate")
-    }
+    if(!is.null(nse.pr.file)){
+      #obs.codon.parms[,4] = log(1-as.numeric(merged.dat$NsePr))
+      obs.codon.parms[,4] = log(as.numeric(merged.dat$NsePr))
+      obs.codon.parms[,5] = log(as.numeric(merged.dat$MutRate))
+      #names(obs.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
+      names(obs.codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate")
+    }else if(!is.null(elong.pr.file)){
+      #obs.codon.parms[,4] = as.numeric(merged.dat$ElongPr)
+      obs.codon.parms[,4] = log(1-as.numeric(merged.dat$ElongPr))
+      obs.codon.parms[,5] = log(as.numeric(merged.dat$MutRate))
+      #names(obs.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate")
+      names(obs.codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate")
+    }else if(!is.null(elong.rate.file)){
+      #obs.codon.parms[,4] = as.numeric(merged.dat$ElongRate)/(as.numeric(merged.dat$ElongRate)+B) #elong_pr
+      obs.codon.parms[,4] = log(B/(as.numeric(merged.dat$ElongRate)+B)) #nse_pr
+      obs.codon.parms[,5] = log(as.numeric(merged.dat$MutRate))
+      obs.codon.parms[,6] = log(as.numeric(merged.dat$ElongRate))
+      #names(obs.codon.parms) = c("aa","codon","c_index","elong_pr","nse_pr","mut_rate","elong_rate")
+      names(obs.codon.parms) = c("aa","codon","c_index","nse_pr","mut_rate","elong_rate")
+    } 
     
     #tabulate the number of codons associated with each amino acid.
     aa.count = as.data.frame(table(obs.codon.parms$aa))

@@ -1,4 +1,4 @@
-calc.eta.NSE <- function(codon_index,codon.parms,pop.parms = list(B = 0.0025,A1 = 4,A2 = 4)){
+calc.eta.NSE <- function(codon_index, codon.parms, pop.parms = list(B = 0.0025,A1 = 4,A2 = 4)){
   #Purpose: Wrapper function for C code to calculate the eta value for a codon index based on 
   #         NSE model
   #Inputs: codon_index
@@ -17,7 +17,7 @@ calc.eta.NSE <- function(codon_index,codon.parms,pop.parms = list(B = 0.0025,A1 
   }
   aa_count = length(codon_index)
   
-  elong_pr = as.numeric(codon.parms$elong_pr[sort.list(codon.parms$c_index)])
+  elong_pr = 1-exp(as.numeric(codon.parms$nse_pr[sort.list(codon.parms$c_index)]))
   
   n_codons = length(elong_pr)
   

@@ -3,9 +3,9 @@ useDynLib(exchange_NSE)
 
 export(
 # Data Structures
-"load.codon.parms",
-"load.phi",
-"load.genome",
+"construct.codon.parms",
+"construct.phi",
+#"construct.genome",
 
 # Main Functions
 "main.semppr",
