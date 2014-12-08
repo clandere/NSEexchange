@@ -71,7 +71,6 @@ main.semppr <- function(obs.genome,
   #aa.list=c('C')
   
   #load required libraries and files
-  #require(multicore)
   #require(MASS)
   #source('../R/gen.seq.R')
   #source('../R/calc.eta.NSE.R')
