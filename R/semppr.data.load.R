@@ -22,7 +22,6 @@ semppr.data.load <- function(dna.file,
   # Usage: > Semppr_data_load(dna.name='/path/to/a.fasta',      
   #        + codon.parms='/path/to/b.tsv')      
   require(seqinr)
-  require(stringr)
   require(plyr)
   
   #1) Make sure we have correct files 
