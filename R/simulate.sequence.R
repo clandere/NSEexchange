@@ -70,7 +70,7 @@ simulate.sequence <- function(phi, c_index, codon.parms, BIS, GMT=0, MES=0,SIMUL
                            as.character(CODON.VEC),          as.integer(length(codon.parms$codon)),        as.character(SIMULATION.METHOD),
                            PACKAGE='exchange_NSE')
     
-  
+
   #return 
   return(OUT.DATA$c_index)
   
