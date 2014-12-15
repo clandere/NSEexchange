@@ -1,3 +1,11 @@
+########### DEPRECATED
+########### DEPRECATED
+########### DEPRECATED
+########### DEPRECATED
+########### DEPRECATED
+########### DEPRECATED
+
+
 semppr.data.load <- function(dna.file,
                              mut.file,
                              elong.rate.file=NULL,
@@ -51,8 +59,6 @@ semppr.data.load <- function(dna.file,
       elong.dat = read.delim(elong.rate.file, header=elong.header, sep = "\t", stringsAsFactors = FALSE)
       names(elong.dat) = c("AA","Codon","ElongRate")
     }
-    
-
     
     # Check for errors
     if(length(elong.dat[,1]) != 64){
