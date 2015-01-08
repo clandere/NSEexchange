@@ -26,7 +26,7 @@ simulate.data.one.gene <- function(gene.list,
   codon.vector[length(codon.vector)] <- as.character(gene.list$gene.dat$codon[length(gene.list$gene.dat$codon)])
   
   for(ii in 1:(length(gene.list$gene.dat$codon)-1)){
-    codon.vector[ii] <- codon.params$codon[ which(codon.params$c_index == gene.list$gene.dat$c_index[ii]) ]
+    codon.vector[ii] <- codon.parms$codon[ which(codon.parms$c_index == gene.list$gene.dat$c_index[ii]) ]
   }
   gene.list$gene.dat$codon <- factor(codon.vector)    #$codon needs to be a factor, not a char vector
   gene.list
