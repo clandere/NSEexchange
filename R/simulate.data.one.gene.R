@@ -14,8 +14,8 @@ simulate.data.one.gene <- function(gene.list,
                       GMT=GMT,
                       MES=MES,
                       SIMULATION.METHOD=simulation.type,
-                      A.1 = genome.parms$A1,
-                      A.2 = genome.parms$A2,
+                      A.1 = genome.parms$A.1,
+                      A.2 = genome.parms$A.2,
                       Ne = genome.parms$Ne,
                       Q = genome.parms$Q)
   

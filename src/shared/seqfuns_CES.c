@@ -243,7 +243,6 @@ double Calc_Xi_NSE (double *sigma_vec, int aa_count) {
   }
   
   xi *= (1 / (1 - sigma_n));
-  
   return xi;
 }
 
@@ -263,7 +262,8 @@ double Calc_Eta_NSE (struct seq_struct * seq)
                  aa_count);
   seq->sigma_obs = seq->sigma_vec[aa_count - 1];
   seq->xi_obs = Calc_Xi_NSE(seq->sigma_vec, aa_count);
-  
+
+
   eta = (1 - seq->sigma_obs) * seq->xi_obs / seq->sigma_obs + (G.A1 + G.A2 * aa_count);
   return eta;
 }
